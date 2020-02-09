@@ -1,5 +1,5 @@
 /**
- * arduino-433 v1.0
+ * arduino-433 v1.0.1
  * Use the arduino platform to control 433MHz switches
  * (c) by Normen Hansen, released under MIT license
 ***/
@@ -185,15 +185,17 @@ void sendRcData() {
     ELECHOUSE_cc1101.SetTx();
 #endif
 #ifdef USE_ESPILIGHT
-    JsonNode *fullJson = json_decode(receivedChars);
-    JsonNode *typeJson = json_find_member(fullJson, "type");
-    JsonNode *messageJson = json_find_member(fullJson, "message");
-    char *message = json_encode(messageJson);
-    rf.send(typeJson->string_, message);
-    json_free(message);
-    json_delete(messageJson);
-    json_delete(typeJson);
-    json_delete(fullJson);
+    if (json_validate(receivedChars)) {
+      JsonNode *fullJson = json_decode(receivedChars);
+      JsonNode *typeJson = json_find_member(fullJson, "type");
+      JsonNode *messageJson = json_find_member(fullJson, "message");
+      char *message = json_encode(messageJson);
+      rf.send(typeJson->string_, message);
+      json_free(message);
+      json_delete(messageJson);
+      json_delete(typeJson);
+      json_delete(fullJson);
+    }
 #else
     long value = getValue(receivedChars, '/', 0).toInt();
     long pulse = getValue(receivedChars, '/', 1).toInt();
