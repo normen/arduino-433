@@ -1,5 +1,5 @@
 /**
- * arduino-433 v1.0.2
+ * arduino-433 v1.0.3
  * Use the arduino platform to control 433MHz switches
  * (c) by Normen Hansen, released under MIT license
 ***/
@@ -46,12 +46,16 @@ extern "C" {
 #include <ELECHOUSE_CC1101_RCS_DRV.h>
 #endif
 
-#ifdef ESP8266 //TODO: ESP32
+#ifdef ESP8266
 #include <ESP8266WiFi.h>
-#ifdef USE_WEBSOCKET
 #include <ESP8266WiFiMulti.h>
-#include <WebSocketsServer.h>
+#elif ESP32
+#include <WiFi.h>
+#include <WiFiMulti.h>
 #endif
+
+#ifdef USE_WEBSOCKET
+#include <WebSocketsServer.h>
 #endif
 
 #ifdef USE_ESPILIGHT
@@ -65,7 +69,11 @@ boolean newData = false; // was a full new string received?
 String dash = "/";
 
 #ifdef USE_WEBSOCKET
+#ifdef ESP8266
 ESP8266WiFiMulti WiFiMulti;
+#elif ESP32
+WiFiMulti WiFiMulti;
+#endif
 WebSocketsServer webSocket = WebSocketsServer(80);
 uint8_t lastClientNum = 0;
 
@@ -101,7 +109,6 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
 #ifdef USE_ESPILIGHT
 void espiCallback(const String &protocol, const String &message, int status,
                 size_t repeats, const String &deviceID) {
-  // check if message is valid and process it
   if (status == VALID) {
     String out = "{\"type\":\""+protocol+"\",\"message\":"+message+"}";
     Serial.println(out);
@@ -127,13 +134,15 @@ void setup() {
   rf.setCallback(espiCallback);
   rf.initReceiver(RC_INPUT_PIN);
 #else
-  mySwitch.enableReceive(digitalPinToInterrupt(RC_INPUT_PIN));  // for esp8266! Receiver on IR 4 = D2
-  mySwitch.enableTransmit(RC_OUTPUT_PIN); // for esp8266! Transmit on pin 5 = D1
+  mySwitch.enableReceive(digitalPinToInterrupt(RC_INPUT_PIN));
+  mySwitch.enableTransmit(RC_OUTPUT_PIN);
   mySwitch.setRepeatTransmit(8);
 #endif
 
 #ifdef ESP8266
   WiFi.mode(WIFI_STA); // prevent ESP from creating access point by default
+#elif ESP32
+  WiFi.mode(WIFI_MODE_STA);
 #endif
 #ifdef USE_WEBSOCKET
   WiFi.hostname(WIFI_HOSTNAME);
