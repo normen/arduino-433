@@ -1,5 +1,5 @@
 /**
- * arduino-433 v1.0.1
+ * arduino-433 v1.0.2
  * Use the arduino platform to control 433MHz switches
  * (c) by Normen Hansen, released under MIT license
 ***/
@@ -46,13 +46,12 @@ extern "C" {
 #include <ELECHOUSE_CC1101_RCS_DRV.h>
 #endif
 
-#ifdef USE_WEBSOCKET
-#ifdef ESP8266
+#ifdef ESP8266 //TODO: ESP32
 #include <ESP8266WiFi.h>
+#ifdef USE_WEBSOCKET
 #include <ESP8266WiFiMulti.h>
 #include <WebSocketsServer.h>
 #endif
-//TODO: ESP32
 #endif
 
 #ifdef USE_ESPILIGHT
@@ -85,8 +84,9 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
       break;
     case WStype_TEXT:
       lastClientNum = num;
-      if(length <= CHAR_BUFFER_SIZE){
-        copyPayload((char*)payload, receivedChars,length);
+      if(length < CHAR_BUFFER_SIZE){
+        copyPayload((char*)payload, receivedChars, length);
+        receivedChars[length]='\0';
         newData = true;
       }
       break;
@@ -132,6 +132,9 @@ void setup() {
   mySwitch.setRepeatTransmit(8);
 #endif
 
+#ifdef ESP8266
+  WiFi.mode(WIFI_STA); // prevent ESP from creating access point by default
+#endif
 #ifdef USE_WEBSOCKET
   WiFi.hostname(WIFI_HOSTNAME);
   WiFiMulti.addAP(WIFI_SSID, WIFI_PASS);
@@ -189,12 +192,18 @@ void sendRcData() {
       JsonNode *fullJson = json_decode(receivedChars);
       JsonNode *typeJson = json_find_member(fullJson, "type");
       JsonNode *messageJson = json_find_member(fullJson, "message");
-      char *message = json_encode(messageJson);
-      rf.send(typeJson->string_, message);
-      json_free(message);
+      if(typeJson != NULL && messageJson != NULL){
+        char *message = json_encode(messageJson);
+        rf.send(typeJson->string_, message);
+        json_free(message);
+      }else{
+        Serial.println("pilight(0): missing type or message in JSON");
+      }
       json_delete(messageJson);
       json_delete(typeJson);
       json_delete(fullJson);
+    }else{
+      Serial.println("pilight(0): invalid JSON");
     }
 #else
     long value = getValue(receivedChars, '/', 0).toInt();
