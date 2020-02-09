@@ -56,16 +56,16 @@ Note that when sending RC data the software can not receive any new commands, wa
 #### Configuration
 To configure the code open `src/main.cpp` and change/uncomment the following `#define` parameters.
 
-##### `#define RC_INPUT_PIN D1`/ `#define RC_OUTPUT_PIN D2`
+##### `#define RC_INPUT_PIN D2`/ `#define RC_OUTPUT_PIN D1`
 These values are needed and represent the input (receiver) and output (transmitter) pins. The microcontroller has to support interrupts on the input pin for the receiver, almost any output pin can be used for the transmitter. Note that these are actual pin numbers, not interrupt numbers.
 
 Usual Values:
-- ESP8266 Receiver on IRQ 4 = D2
-- ESP8266 Transmit on pin 5 = D1
-- Arduino Micro Receiver on IRQ 0 = 3
-- Arduino Micro Sender on pin 4 = 4
-- Arduino Nano Receiver on IRQ 0 = 2
-- Arduino Nano Transmit = 6
+- ESP8266 Receiver on IRQ 4 = `D2`
+- ESP8266 Transmit on pin 5 = `D1`
+- Arduino Micro Receiver on IRQ 0 = `3`
+- Arduino Micro Sender on pin 4 = `4`
+- Arduino Nano Receiver on IRQ 0 = `2`
+- Arduino Nano Transmit = `6`
 
 ##### `#define USE_CC1101`
 You can use a more advanced CC1101 based transceiver module instead of simple 433MHz receiver/sender pairs. These modules also have send and receive pins but are additionally connected via SPI for configuration.
