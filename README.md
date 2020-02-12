@@ -93,5 +93,10 @@ The send/receive data format will change to JSON, with `type` and `message` cont
 
 Works on ESP.
 
+#### Adding support for unsupported switches when using rc-switch
+If you have a 433 device that doesn't work you can try and download a different version of the rcswitch library and run a "discovery application" that suggests how to extend the rcswitch.cpp file to add support for the unknown signal:
+
+https://github.com/Martin-Laclaustra/rc-switch/
+
 ## License
 Published under the MIT License.
