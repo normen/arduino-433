@@ -6,6 +6,8 @@ This Arduino code allows you to create a cheap 433MHz wireless transceiver to co
 
 The project uses the PlatformIO IDE and runs on Arduino (Micro/Nano etc.) as well as ESP8266. To decode signals rc-switch or ESPiLight can be used. Simple 433MHz receiver/sender hardware or more advanced CC1101 based transceiver modules are supported to receive and send 433MHz RC data.
 
+This is not meant to be an advanced firmware but a hobby software that is simple to use, build and understand.
+
 ## Installation 
 ### PlatformIO (recommended)
 - Download and install the PlatformIO IDE, i.e. VisualStudioCode (see https://platformio.org)
