@@ -4,7 +4,7 @@ Arduino/ESP based 433MHz home control transceiver
 ## Introduction
 This Arduino code allows you to create a cheap 433MHz wireless transceiver to control electric switches and other home appliances. It can use USB or WiFi to connect to a computer to receive and send commands. It is mainly used for the [homebridge-433-arduino](https://github.com/normen/homebridge-433-arduino) plugin but can of course be used otherwise as well.
 
-The project uses the PlatformIO IDE and runs on Arduino (Micro/Nano etc.) as well as ESP8266. To decode signals rc-switch or ESPiLight can be used. Simple 433MHz receiver/sender hardware or more advanced CC1101 based transceiver modules are supported to receive and send 433MHz RC data.
+The project uses the PlatformIO IDE and runs on Arduino as well as ESP hardware. To decode signals the rc-switch or ESPiLight libraries can be used. Simple 433MHz receiver/sender hardware or more advanced CC1101 based transceiver modules are supported to send and receive 433MHz switch signals.
 
 This is not meant to be an advanced firmware but a hobby software that is simple to use, build and understand.
 
