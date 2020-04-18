@@ -142,3 +142,7 @@ Note that when sending RC data the transceiver can not receive any new commands,
 
 ## License
 Published under the MIT License.
+
+## Version History
+- Version 1.1
+  - Use C1101 library from arduino library manager
