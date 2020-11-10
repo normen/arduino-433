@@ -5,5 +5,8 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/settings.json
+.ccls
+.clang_complete
+.gcc-flags.json
 .DS_Store
 lib/rc-switch
