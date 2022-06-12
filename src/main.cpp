@@ -1,5 +1,5 @@
 /**
- * arduino-433 v1.2
+ * arduino-433 v1.2.1
  * Use the arduino platform to control 433MHz switches
  * (c) by Normen Hansen, released under MIT license
 ***/
@@ -242,7 +242,7 @@ void receiveRcData(){
     long pulse = mySwitch.getReceivedDelay();
     long protocol = mySwitch.getReceivedProtocol();
     if (value != 0) {
-      String out = value + dash + pulse + dash + protocol;
+      String out = String(value) + dash + String(pulse) + dash + String(protocol);
 #ifdef USE_WEBSOCKET
       webSocket.broadcastTXT(out);
 #endif
