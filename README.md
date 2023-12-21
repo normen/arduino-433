@@ -1,3 +1,19 @@
+# DISCONTINUED
+
+As I moved my whole setup to a [FHEM](https://fhem.de) server with a [SIGNALduino](https://github.com/RFD-FHEM/SIGNALDuino) this project is now deprecated. This does *not* mean that its not working or will stop working in the future.
+
+The good news is that if you want to change your existing setup to FHEM as well you probably already have everything to do that.
+
+For example, with a C1101 module all you need to do is swap the GDO0 and GDO2 connections and you have a SIGNALduino ready to flash.
+
+## Migration to FHEM
+
+- Make sure you have a HEX file of the current firmware to be able to go back
+- If using CC1101: switch cables for `GD0`and `GD2`
+- Download correct hex file (esp/nano/CC1101) from [SIGNALduino](https://github.com/RFD-FHEM/SIGNALDuino) releases
+- Upload hex using avrdude or esptool.py
+- See the [homebridge-433-arduino](https://github.com/normen/homebridge-433-arduino) project for the FHEM server setup
+
 # arduino-433
 Arduino/ESP based 433MHz home control transceiver
 
